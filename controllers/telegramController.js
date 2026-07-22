@@ -1,4 +1,5 @@
 import ChatState from '../models/ChatState.js';
+import mongoose from 'mongoose';
 import telegramService from '../services/telegramService.js';
 const { bot, sendMessage, sendInlineButtons, answerCallbackQuery } = telegramService;
 import puppeteerPortal1 from '../services/puppeteerPortal1.js';
@@ -52,6 +53,14 @@ export const processIncomingUpdate = async ({ chatId, userInput, callbackData, c
   }
 
   console.log(`[Telegram Event] ChatId: ${strChatId} | Input: "${userInput}" | Callback: "${callbackData || ''}"`);
+
+  // Fast-fail if MongoDB is not connected to prevent Mongoose 10000ms buffering timeouts
+  if (mongoose.connection.readyState !== 1) {
+    console.warn(`[Database] Skipping request for ChatId ${strChatId} because MongoDB is disconnected.`);
+    if (callbackQueryId) await answerCallbackQuery(callbackQueryId, 'Database Offline').catch(() => null);
+    await sendMessage(strChatId, '⚠️ <b>System Offline:</b> The bot database is currently disconnected. Please check the MongoDB connection string.').catch(() => null);
+    return;
+  }
 
   let chatState = await ChatState.findOne({ chatId: strChatId });
   if (!chatState) {
