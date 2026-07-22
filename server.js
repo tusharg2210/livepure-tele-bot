@@ -1,7 +1,16 @@
 import 'dotenv/config';
 import express, { json, urlencoded } from 'express';
 import { connect } from 'mongoose';
+import dns from 'dns';
 import telegramRoutes from './routes/telegramRoutes.js';
+
+// Force IPv4 and Google DNS resolution for Mongo+srv SRV lookups on Render/cloud environments
+try {
+  dns.setDefaultResultOrder('ipv4first');
+  dns.setServers(['8.8.8.8', '8.8.4.4']);
+} catch (dnsErr) {
+  console.warn('[DNS Config Warning]:', dnsErr.message);
+}
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -34,7 +43,10 @@ app.use((err, req, res, next) => {
 const startServer = async () => {
   try {
     console.log('[Database] Connecting to MongoDB...');
-    await connect(MONGODB_URI);
+    await connect(MONGODB_URI, {
+      family: 4,
+      serverSelectionTimeoutMS: 10000,
+    });
     console.log('[Database] MongoDB connected successfully.');
 
     app.listen(PORT, () => {
