@@ -1,0 +1,27 @@
+{
+  "name": "livepure-telegram-bot",
+  "version": "1.0.0",
+  "description": "Telegram Bot for Livpure Service Center pending complaints automation using Express, MongoDB, Puppeteer, and Telegram Bot API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "telegram-bot",
+    "puppeteer",
+    "express",
+    "livpure",
+    "automation"
+  ],
+  "author": "Antigravity Assistant",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.5",
+    "node-telegram-bot-api": "^1.2.0",
+    "puppeteer": "^24.1.0"
+  }
+}
