@@ -12,7 +12,7 @@ const ALLOWED_USERS = (process.env.ALLOWED_TELEGRAM_USERS || '1778074826,8279630
 /**
  * Check if a Chat ID is authorized
  */
-const isAuthorized = (chatId) => {
+export const isAuthorized = (chatId) => {
   if (!chatId) return false;
   const strId = String(chatId).trim();
   return ALLOWED_USERS.includes(strId);
@@ -21,7 +21,7 @@ const isAuthorized = (chatId) => {
 /**
  * Escape HTML special characters for safe Telegram rendering
  */
-const escapeHTML = (text) => {
+export const escapeHTML = (text) => {
   if (text === null || text === undefined) return 'N/A';
   return String(text)
     .replace(/&/g, '&amp;')
@@ -32,7 +32,7 @@ const escapeHTML = (text) => {
 /**
  * Unified Core Handler for Telegram Messages & Button Callbacks
  */
-const processIncomingUpdate = async ({ chatId, userInput, callbackData, callbackQueryId }) => {
+export const processIncomingUpdate = async ({ chatId, userInput, callbackData, callbackQueryId }) => {
   if (!chatId) return;
 
   const strChatId = String(chatId).trim();
@@ -117,7 +117,7 @@ if (bot) {
 /**
  * Handle incoming Webhook POST requests (POST /webhook)
  */
-const handleWebhook = async (req, res) => {
+export const handleWebhook = async (req, res) => {
   res.status(200).send({ status: 'OK' });
 
   try {
@@ -150,7 +150,7 @@ const handleWebhook = async (req, res) => {
 /**
  * Handle /pending Command Logic (Portal 1 Only)
  */
-const handlePendingCommand = async (chatId, chatState) => {
+export const handlePendingCommand = async (chatId, chatState) => {
   await sendMessage(chatId, '⏳ <b>Logging into Livpure Partners portal &amp; fetching ALL pending cases...</b>');
 
   try {
@@ -186,7 +186,7 @@ const handlePendingCommand = async (chatId, chatState) => {
 /**
  * Handle OTP submission for Portal 1
  */
-const handleOtpSubmission = async (chatId, otp, chatState) => {
+export const handleOtpSubmission = async (chatId, otp, chatState) => {
   await sendMessage(chatId, '⏳ <b>Verifying OTP &amp; fetching pending cases... Please wait.</b>');
 
   try {
@@ -210,7 +210,7 @@ const handleOtpSubmission = async (chatId, otp, chatState) => {
 /**
  * Send EACH request as a separate, safe HTML-formatted Telegram card message
  */
-const sendComplaintsAsSeparateMessages = async (chatId, complaints) => {
+export const sendComplaintsAsSeparateMessages = async (chatId, complaints) => {
   if (!complaints || complaints.length === 0) {
     await sendMessage(chatId, 'ℹ️ <b>No pending cases found on Livpure Partners portal.</b>');
     return;
@@ -246,7 +246,7 @@ const sendComplaintsAsSeparateMessages = async (chatId, complaints) => {
 /**
  * Send Main Menu (Portal 1 Pending Cases Only)
  */
-const sendMainMenu = async (chatId) => {
+export const sendMainMenu = async (chatId) => {
   const bodyText =
     '👋 <b>Welcome to Livpure Service Center Bot!</b>\n\nSend <b>/pending</b> or click the button below to fetch all live pending cases:';
   const buttons = [{ id: 'btn_latest_requests', title: '📋 Fetch Pending Cases' }];

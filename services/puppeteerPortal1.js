@@ -151,7 +151,7 @@ const navigateAndScrapePendingCases = async (page) => {
 /**
  * Main function: Login & Scrape Livpure Partner Portal
  */
-const initiatePortal1Login = async () => {
+export const initiatePortal1Login = async () => {
   let browser;
   let keepBrowserOpen = false;
 
@@ -242,7 +242,7 @@ const initiatePortal1Login = async () => {
 /**
  * Submit OTP using kept-alive active browser session
  */
-const verifyOtpAndScrape = async (otpInput) => {
+export const verifyOtpAndScrape = async (otpInput) => {
   const session = activeLoginSessions.get('PORTAL1');
 
   if (!session || !session.page || !session.browser) {
@@ -312,11 +312,13 @@ const saveSessionCookies = async (cookies) => {
   );
 };
 
+export const scrapePendingComplaints = async () => {
+  const res = await initiatePortal1Login();
+  return res.complaints || [];
+};
+
 export default {
   initiatePortal1Login,
   verifyOtpAndScrape,
-  scrapePendingComplaints: async () => {
-    const res = await initiatePortal1Login();
-    return res.complaints || [];
-  },
+  scrapePendingComplaints,
 };

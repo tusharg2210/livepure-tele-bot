@@ -6,7 +6,7 @@ const TelegramBot = typeof TelegramBotModule === 'function'
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const isMock = !token || token.includes('your_telegram_bot_token');
 
-let bot = null;
+export let bot = null;
 
 if (!isMock) {
   try {
@@ -24,7 +24,7 @@ if (!isMock) {
 /**
  * Send text message to a Telegram chat using HTML parse_mode
  */
-const sendMessage = async (chatId, text, options = {}) => {
+export const sendMessage = async (chatId, text, options = {}) => {
   if (!bot || isMock) {
     console.log(`[Telegram Bot Mock] Sending message to chatId ${chatId}:\n${text}`);
     return { mock: true };
@@ -35,7 +35,7 @@ const sendMessage = async (chatId, text, options = {}) => {
 /**
  * Send interactive inline buttons
  */
-const sendInlineButtons = async (chatId, text, buttons) => {
+export const sendInlineButtons = async (chatId, text, buttons) => {
   const inlineKeyboard = [
     buttons.map((btn) => ({
       text: btn.title,
@@ -53,7 +53,7 @@ const sendInlineButtons = async (chatId, text, buttons) => {
 /**
  * Answer inline button callback query
  */
-const answerCallbackQuery = async (callbackQueryId, text = null) => {
+export const answerCallbackQuery = async (callbackQueryId, text = null) => {
   if (!bot || isMock) return;
   return await bot.answerCallbackQuery(callbackQueryId, { text });
 };
