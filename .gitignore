@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Environment & Secret files
+.env
+.env.local
+*.env
+
+# Debug & Temporary files
+debug_html.txt
+debug_portal.png
+*.log
+*.png
+
+# System & IDE files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
