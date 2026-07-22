@@ -1,11 +1,6 @@
-const ChatState = require('../models/ChatState');
-const {
-  bot,
-  sendMessage,
-  sendInlineButtons,
-  answerCallbackQuery,
-} = require('../services/telegramService');
-const puppeteerPortal1 = require('../services/puppeteerPortal1');
+import ChatState from '../models/ChatState';
+import { bot, sendMessage, sendInlineButtons, answerCallbackQuery } from '../services/telegramService';
+import { initiatePortal1Login, verifyOtpAndScrape } from '../services/puppeteerPortal1';
 
 // Authorized Telegram Chat IDs / Phone Numbers
 const ALLOWED_USERS = (process.env.ALLOWED_TELEGRAM_USERS || '1778074826,8279630271,9897031292')
@@ -157,7 +152,7 @@ const handlePendingCommand = async (chatId, chatState) => {
   await sendMessage(chatId, '⏳ <b>Logging into Livpure Partners portal &amp; fetching ALL pending cases...</b>');
 
   try {
-    const result = await puppeteerPortal1.initiatePortal1Login();
+    const result = await initiatePortal1Login();
 
     if (result.otpRequired) {
       chatState.step = 'AWAITING_OTP_PORTAL1';
@@ -193,7 +188,7 @@ const handleOtpSubmission = async (chatId, otp, chatState) => {
   await sendMessage(chatId, '⏳ <b>Verifying OTP &amp; fetching pending cases... Please wait.</b>');
 
   try {
-    const result = await puppeteerPortal1.verifyOtpAndScrape(otp);
+    const result = await verifyOtpAndScrape(otp);
 
     if (result.success && result.complaints) {
       await sendMessage(chatId, '✅ <b>OTP Verified Successfully!</b>');
@@ -257,7 +252,7 @@ const sendMainMenu = async (chatId) => {
   await sendInlineButtons(chatId, bodyText, buttons);
 };
 
-module.exports = {
+export default {
   handleWebhook,
   handlePendingCommand,
   processIncomingUpdate,

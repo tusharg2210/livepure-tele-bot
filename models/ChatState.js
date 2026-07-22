@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const chatStateSchema = new mongoose.Schema(
+const chatStateSchema = new Schema(
   {
     chatId: { type: String, required: true, unique: true, index: true },
     step: {
@@ -14,4 +14,4 @@ const chatStateSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('ChatState', chatStateSchema);
+export default model('ChatState', chatStateSchema);

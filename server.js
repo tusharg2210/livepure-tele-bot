@@ -1,15 +1,15 @@
 require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const telegramRoutes = require('./routes/telegramRoutes');
+import express, { json, urlencoded } from 'express';
+import { connect } from 'mongoose';
+import telegramRoutes from './routes/telegramRoutes';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/livepure_bot';
 
 // Middleware for parsing JSON requests
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(json());
+app.use(urlencoded({ extended: true }));
 
 // Keep-alive health check route for external uptime services (e.g. Render, UptimeRobot)
 app.get('/ping', (req, res) => {
@@ -34,7 +34,7 @@ app.use((err, req, res, next) => {
 const startServer = async () => {
   try {
     console.log('[Database] Connecting to MongoDB...');
-    await mongoose.connect(MONGODB_URI);
+    await connect(MONGODB_URI);
     console.log('[Database] MongoDB connected successfully.');
 
     app.listen(PORT, () => {

@@ -1,6 +1,6 @@
-const fs = require('fs');
-const puppeteer = require('puppeteer');
-const Session = require('../models/Session');
+import { writeFileSync } from 'fs';
+import { launch } from 'puppeteer';
+import Session from '../models/Session';
 
 // Active In-Memory Map to preserve open browser tabs during OTP waiting state
 const activeLoginSessions = new Map();
@@ -25,7 +25,7 @@ const getBrowser = async () => {
   if (process.env.PUPPETEER_EXECUTABLE_PATH) {
     options.executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
   }
-  return await puppeteer.launch(options);
+  return await launch(options);
 };
 
 const setupPageOptimization = async (page) => {
@@ -81,7 +81,7 @@ const navigateAndScrapePendingCases = async (page) => {
     console.log('[Portal 1 DEBUG] Saving screenshot and HTML to project folder...');
     await page.screenshot({ path: 'debug_portal.png', fullPage: true }).catch(() => null);
     const pageHTML = await page.content();
-    fs.writeFileSync('debug_html.txt', pageHTML);
+    writeFileSync('debug_html.txt', pageHTML);
     console.log('[Portal 1 DEBUG] Screenshot (debug_portal.png) and HTML (debug_html.txt) saved!');
     // ==========================================
 
@@ -312,7 +312,7 @@ const saveSessionCookies = async (cookies) => {
   );
 };
 
-module.exports = {
+export default {
   initiatePortal1Login,
   verifyOtpAndScrape,
   scrapePendingComplaints: async () => {

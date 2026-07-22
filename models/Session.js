@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const SessionSchema = new mongoose.Schema(
+const SessionSchema = new Schema(
   {
     portal: {
       type: String,
@@ -28,4 +28,4 @@ const SessionSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Session', SessionSchema);
+export default model('Session', SessionSchema);

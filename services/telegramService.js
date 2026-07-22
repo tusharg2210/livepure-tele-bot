@@ -1,7 +1,7 @@
-const TelegramBotModule = require('node-telegram-bot-api');
-const TelegramBot = typeof TelegramBotModule === 'function' 
-  ? TelegramBotModule 
-  : (TelegramBotModule.TelegramBot || TelegramBotModule.default || TelegramBotModule);
+import TelegramBotModule, { TelegramBot as _TelegramBot } from 'node-telegram-bot-api';
+const TelegramBot = typeof TelegramBotModule === 'function'
+  ? TelegramBotModule
+  : (_TelegramBot || TelegramBotModule || TelegramBotModule);
 
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const isMock = !token || token.includes('your_telegram_bot_token');
@@ -58,7 +58,7 @@ const answerCallbackQuery = async (callbackQueryId, text = null) => {
   return await bot.answerCallbackQuery(callbackQueryId, { text });
 };
 
-module.exports = {
+export default {
   bot,
   sendMessage,
   sendInlineButtons,
