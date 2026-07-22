@@ -1,6 +1,7 @@
 import { Router } from 'express';
+import { handleWebhook } from '../controllers/telegramController.js';
+
 const router = Router();
-import { handleWebhook } from '../controllers/telegramController';
 
 // Telegram Webhook POST handler
 router.post('/', handleWebhook);

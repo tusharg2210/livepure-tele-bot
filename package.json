@@ -1,6 +1,7 @@
 {
   "name": "livepure-telegram-bot",
   "version": "1.0.0",
+  "type": "module",
   "description": "Telegram Bot for Livpure Service Center pending complaints automation using Express, MongoDB, Puppeteer, and Telegram Bot API",
   "main": "server.js",
   "scripts": {

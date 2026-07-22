@@ -1,6 +1,8 @@
-import ChatState from '../models/ChatState';
-import { bot, sendMessage, sendInlineButtons, answerCallbackQuery } from '../services/telegramService';
-import { initiatePortal1Login, verifyOtpAndScrape } from '../services/puppeteerPortal1';
+import ChatState from '../models/ChatState.js';
+import telegramService from '../services/telegramService.js';
+const { bot, sendMessage, sendInlineButtons, answerCallbackQuery } = telegramService;
+import puppeteerPortal1 from '../services/puppeteerPortal1.js';
+const { initiatePortal1Login, verifyOtpAndScrape } = puppeteerPortal1;
 
 // Authorized Telegram Chat IDs / Phone Numbers
 const ALLOWED_USERS = (process.env.ALLOWED_TELEGRAM_USERS || '1778074826,8279630271,9897031292')

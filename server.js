@@ -1,7 +1,7 @@
-require('dotenv').config();
+import 'dotenv/config';
 import express, { json, urlencoded } from 'express';
 import { connect } from 'mongoose';
-import telegramRoutes from './routes/telegramRoutes';
+import telegramRoutes from './routes/telegramRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;

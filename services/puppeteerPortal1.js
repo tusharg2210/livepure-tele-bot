@@ -1,6 +1,6 @@
 import { writeFileSync } from 'fs';
 import { launch } from 'puppeteer';
-import Session from '../models/Session';
+import Session from '../models/Session.js';
 
 // Active In-Memory Map to preserve open browser tabs during OTP waiting state
 const activeLoginSessions = new Map();
